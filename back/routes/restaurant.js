@@ -3,6 +3,8 @@ const db = require("../models");
 const multer = require("multer");
 const path = require("path");
 const fs = require("fs");
+const sequelize = require("sequelize");
+const Op = sequelize.Op;
 
 const router = express.Router();
 
@@ -19,6 +21,27 @@ const storage = multer.diskStorage({
 
 const upload = multer({ storage: storage });
 
+function removeDuplicatesArray(arr) {
+  let tempArr = [];
+  for (let i = 0; i < arr.length; i++) {
+    if (tempArr.length === 0) {
+      tempArr.push(arr[i]);
+    } else {
+      let duplicatesFlag = true;
+      for (let j = 0; j < tempArr.length; j++) {
+        if (tempArr[j].name === arr[i].name) {
+          duplicatesFlag = false;
+          break;
+        }
+      }
+      if (duplicatesFlag) {
+        tempArr.push(arr[i]);
+      }
+    }
+  }
+  return tempArr;
+}
+
 router.post("/", upload.none(), async (req, res) => {
   try {
     const restaurant = await db.Restaurant.findOne({
@@ -31,6 +54,7 @@ router.post("/", upload.none(), async (req, res) => {
       name: req.body.name,
       star: req.body.star,
       foodtype: req.body.type,
+      tag: req.body.tag,
     });
     await db.DetailInfo.create({
       description: req.body.descrip,
@@ -113,6 +137,40 @@ router.delete("/images", (req, res) => {
   try {
     fs.unlinkSync(`uploads/${req.body.src}`);
     res.send("remove success");
+  } catch (e) {
+    console.error(e);
+  }
+});
+
+router.get("/search", async (req, res) => {
+  try {
+    let search = req.query.search.split(",");
+    let arr = search.map((v) => v.trim());
+    // const test = await db.Restaurant.findAll({
+    //   where: {
+    //     tag: {
+    //       [Op.like]: "%고기%",
+    //     },
+    //   },
+    // });
+    let firstARr = [];
+
+    const targets = await Promise.all(
+      arr.map((v) =>
+        db.Restaurant.findAll({
+          where: {
+            tag: {
+              [Op.like]: "%" + v + "%",
+            },
+          },
+          attributes: ["id", "name"],
+        })
+      )
+    );
+    targets.map((v) => v.forEach((b) => firstARr.push(b.toJSON())));
+    firstARr = removeDuplicatesArray(firstARr);
+
+    res.json(firstARr);
   } catch (e) {
     console.error(e);
   }

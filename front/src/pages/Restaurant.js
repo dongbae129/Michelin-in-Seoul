@@ -16,7 +16,6 @@ function Restaurant(props) {
   const query = queryString.parse(props.location.search);
   const dispatch = useDispatch();
 
-  console.log(restaurant);
   return (
     <div
       style={{

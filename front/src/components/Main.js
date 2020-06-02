@@ -11,6 +11,7 @@ import DetailType from "./DetailType";
 import Upload from "../pages/Upload";
 import { Button } from "antd";
 import Restaurant from "../pages/Restaurant";
+import aa from "../pages/aa";
 
 function Main() {
   return (
@@ -37,6 +38,7 @@ function Main() {
       <Route path="/sushi" component={Sushi} />
       <Route path="/spanish" component={Spanish} /> */}
       <Route path="/food/:type" component={DetailType} />
+      <Route path="/aa" component={aa} />
     </BrowserRouter>
   );
 }

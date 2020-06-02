@@ -22,6 +22,10 @@ export const UPLOAD_IMAGES_REQUEST = "UPLOAD_IMAGES_REQUEST";
 export const UPLOAD_IMAGES_SUCCESS = "UPLOAD_IMAGES_SUCCESS";
 export const UPLOAD_IMAGES_FAILURE = "UPLOAD_IMAGES_FAILURE";
 
+export const SEARCH_TARGETS_REQUEST = "SEARCH_TARGETS_REQUEST";
+export const SEARCH_TARGETS_SUCCESS = "SEARCH_TARGETS_SUCCESS";
+export const SEARCH_TARGETS_FAILURE = "SEARCH_TARGETS_FAILURE";
+
 export const REMOVE_IMAGE_FRONT = "REMOVE_IMAGE_FRONT";
 
 export default (state = initialState, action) => {
@@ -29,12 +33,15 @@ export default (state = initialState, action) => {
     case GET_RESTARAURANT_INFO_REQUEST:
     case GET_RESTARAURANT_INFO_FAILURE:
     case GET_DETAIL_INFO_REQUEST:
+    case SEARCH_TARGETS_REQUEST:
+    case SEARCH_TARGETS_FAILURE:
     case GET_DETAIL_INFO_FAILURE: {
       return {
         ...state,
       };
     }
     case GET_RESTARAURANT_INFO_SUCCESS:
+    case SEARCH_TARGETS_SUCCESS:
     case GET_DETAIL_INFO_SUCCESS: {
       return {
         ...state,
@@ -53,6 +60,7 @@ export default (state = initialState, action) => {
       return {
         ...state,
         restaurant: state.restaurant.concat(action.data),
+        imagePaths: [],
       };
     }
     case UPLOAD_IMAGES_REQUEST: {

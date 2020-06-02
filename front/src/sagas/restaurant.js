@@ -12,6 +12,9 @@ import {
   GET_DETAIL_INFO_REQUEST,
   GET_DETAIL_INFO_FAILURE,
   GET_DETAIL_INFO_SUCCESS,
+  SEARCH_TARGETS_SUCCESS,
+  SEARCH_TARGETS_FAILURE,
+  SEARCH_TARGETS_REQUEST,
 } from "../reducers/restaurant";
 import axios from "axios";
 
@@ -100,11 +103,35 @@ function* getDetailInfo(action) {
 function* watchGetDetailInfo() {
   yield takeEvery(GET_DETAIL_INFO_REQUEST, getDetailInfo);
 }
+
+function searchTargetAPI(search) {
+  return axios.get(`/restaurant/search`, { params: { search: search } });
+}
+function* searchTarget(action) {
+  try {
+    console.log(action.data);
+    const result = yield call(searchTargetAPI, action.data);
+    yield put({
+      type: SEARCH_TARGETS_SUCCESS,
+      data: result.data,
+    });
+  } catch (e) {
+    console.error(e);
+    yield put({
+      type: SEARCH_TARGETS_FAILURE,
+      error: e,
+    });
+  }
+}
+function* watchSearchTarget() {
+  yield takeEvery(SEARCH_TARGETS_REQUEST, searchTarget);
+}
 export default function* restaurantSaga() {
   yield all([
     fork(watchUploadImages),
     fork(watchuploadRestaurantInfos),
     fork(watchGetRestaurantInfo),
     fork(watchGetDetailInfo),
+    fork(watchSearchTarget),
   ]);
 }

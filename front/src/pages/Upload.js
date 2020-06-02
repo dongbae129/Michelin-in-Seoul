@@ -15,7 +15,7 @@ const Upload = (props) => {
   const [weekday, setWeekday] = useState("");
   const [weekend, setWeekend] = useState("");
   const [descrip, setDescrip] = useState("");
-  const [imgSrc, setImgSrc] = useState([]);
+  const [tag, setTag] = useState("");
   const dispatch = useDispatch();
   const { imagePaths } = useSelector((state) => state.restaurant);
   // const [state, setState] = useState({});
@@ -28,7 +28,6 @@ const Upload = (props) => {
       imageData.append("image", f);
     });
 
-    setImgSrc(...imagePaths);
     dispatch({
       type: UPLOAD_IMAGES_REQUEST,
       data: imageData,
@@ -59,6 +58,9 @@ const Upload = (props) => {
   const onSetDescrip = useCallback((e) => {
     setDescrip(e.target.value);
   }, []);
+  const onSetTag = useCallback((e) => {
+    setTag(e.target.value);
+  });
 
   const onSubmit = () => {
     dispatch({
@@ -72,8 +74,10 @@ const Upload = (props) => {
         weekend,
         descrip,
         imagePaths,
+        tag,
       },
     });
+
     props.history.push("/");
   };
 
@@ -107,6 +111,9 @@ const Upload = (props) => {
         </Form.Item>
         <Form.Item label="업종">
           <Input value={type} onChange={onSetType} />
+        </Form.Item>
+        <Form.Item label="태그">
+          <Input value={tag} onChange={onSetTag} />
         </Form.Item>
         <Form.Item label="전화번호">
           <Input value={phoneNum} onChange={onSetPhoneNum} />
