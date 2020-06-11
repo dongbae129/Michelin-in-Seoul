@@ -50,6 +50,7 @@ function* uploadRestaurantInfos(action) {
       data: result.data,
     });
   } catch (e) {
+    console.error(e);
     yield put({
       type: UPLOAD_RESTARAURANT_INFO_FAILURE,
       error: e,
@@ -105,7 +106,9 @@ function* watchGetDetailInfo() {
 }
 
 function searchTargetAPI(search) {
-  return axios.get(`/restaurant/search`, { params: { search: search } });
+  return axios.get(`/restaurant/search`, {
+    params: { search: encodeURIComponent(search) },
+  });
 }
 function* searchTarget(action) {
   try {

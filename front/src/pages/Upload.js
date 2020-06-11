@@ -16,6 +16,7 @@ const Upload = (props) => {
   const [weekend, setWeekend] = useState("");
   const [descrip, setDescrip] = useState("");
   const [tag, setTag] = useState("");
+  const [location, setLocation] = useState("");
   const dispatch = useDispatch();
   const { imagePaths } = useSelector((state) => state.restaurant);
   // const [state, setState] = useState({});
@@ -61,6 +62,9 @@ const Upload = (props) => {
   const onSetTag = useCallback((e) => {
     setTag(e.target.value);
   });
+  const onSetLocation = useCallback((e) => {
+    setLocation(e.target.value);
+  });
 
   const onSubmit = () => {
     dispatch({
@@ -75,6 +79,7 @@ const Upload = (props) => {
         descrip,
         imagePaths,
         tag,
+        location,
       },
     });
 
@@ -92,77 +97,110 @@ const Upload = (props) => {
     });
   };
   return (
-    <Form
+    <div
       style={{
-        width: "600px",
+        background: "#e6fcf5",
+        zIndex: 0,
+        width: "800px",
         margin: "0 auto",
-        display: "flex",
+        padding: "20px",
       }}
-      onFinish={onSubmit}
     >
-      <div
-        style={{ width: "50%", marginRight: "2rem", border: "1px solid black" }}
+      <Form
+        style={{
+          width: "600px",
+          height: "689px",
+          margin: "0 auto",
+          display: "flex",
+        }}
+        onFinish={onSubmit}
       >
-        <Form.Item label="이름">
-          <Input value={name} onChange={onSetName} />
-        </Form.Item>
-        <Form.Item label="별 개수">
-          <Input value={star} onChange={onSetStar} />
-        </Form.Item>
-        <Form.Item label="업종">
-          <Input value={type} onChange={onSetType} />
-        </Form.Item>
-        <Form.Item label="태그">
-          <Input value={tag} onChange={onSetTag} />
-        </Form.Item>
-        <Form.Item label="전화번호">
-          <Input value={phoneNum} onChange={onSetPhoneNum} />
-        </Form.Item>
-        <Form.Item label="평일">
-          <Input value={weekday} onChange={onSetWeekday} />
-        </Form.Item>
-        <Form.Item label="주말">
-          <Input value={weekend} onChange={onSetWeekend} />
-        </Form.Item>
-        <Form.Item label="설명">
-          <Input.TextArea rows="8" value={descrip} onChange={onSetDescrip} />
-        </Form.Item>
+        <div
+          style={{
+            width: "50%",
+            marginRight: "2rem",
+            // border: "1px solid black",
+            borderRadius: "3px",
+            background: "white",
+          }}
+        >
+          <Form.Item label="이름">
+            <Input value={name} onChange={onSetName} required />
+          </Form.Item>
+          <Form.Item label="별 개수">
+            <Input value={star} onChange={onSetStar} required />
+          </Form.Item>
+          <Form.Item label="업종">
+            <Input value={type} onChange={onSetType} required />
+          </Form.Item>
+          <Form.Item label="태그">
+            <Input value={tag} onChange={onSetTag} required />
+          </Form.Item>
+          <Form.Item label="전화번호">
+            <Input value={phoneNum} onChange={onSetPhoneNum} required />
+          </Form.Item>
+          <Form.Item label="위치">
+            <Input value={location} onChange={onSetLocation} required />
+          </Form.Item>
+          <Form.Item label="평일">
+            <Input value={weekday} onChange={onSetWeekday} required />
+          </Form.Item>
+          <Form.Item label="주말">
+            <Input value={weekend} onChange={onSetWeekend} required />
+          </Form.Item>
+          <Form.Item label="설명">
+            <Input.TextArea
+              rows="8"
+              value={descrip}
+              onChange={onSetDescrip}
+              required
+            />
+          </Form.Item>
 
-        <Button type="primary" htmlType="submit">
-          등록
-        </Button>
-      </div>
-      <div style={{ border: "1px solid black", width: "50%" }}>
-        <input
-          type="file"
-          multiple
-          ref={imageInput}
-          hidden
-          onChange={onChangeImage}
-        />
-        <Button onClick={onClickImageInput}>이미지</Button>
-        <div onClick={removeImage}>
-          {imagePaths.map((v, i) => (
-            <div
-              key={i}
-              style={{
-                width: "50%",
-                height: "141px",
-                display: "inline-block",
-                boxSizing: "border-box",
-                padding: "6px",
-              }}
-            >
-              <img
-                style={{ width: "100%", height: "100%" }}
-                src={`http://localhost:8010/${v}`}
-                alt="img"
-              />
-            </div>
-          ))}
+          <Button type="primary" htmlType="submit">
+            등록
+          </Button>
         </div>
-      </div>
-    </Form>
+        <div
+          style={{
+            // border: "1px solid black",
+            width: "50%",
+            background: "white",
+            overflow: "auto",
+          }}
+        >
+          <input
+            type="file"
+            multiple
+            ref={imageInput}
+            hidden
+            onChange={onChangeImage}
+          />
+          <Button onClick={onClickImageInput}>이미지</Button>
+          <div onClick={removeImage}>
+            {imagePaths.map((v, i) => (
+              <div
+                key={i}
+                style={{
+                  width: "50%",
+                  height: "141px",
+                  display: "inline-block",
+                  boxSizing: "border-box",
+                  padding: "6px",
+                  zIndex: "3",
+                }}
+              >
+                <img
+                  style={{ width: "100%", height: "100%" }}
+                  src={`http://localhost:8010/${v}`}
+                  alt="img"
+                />
+              </div>
+            ))}
+          </div>
+        </div>
+      </Form>
+    </div>
   );
 };
 

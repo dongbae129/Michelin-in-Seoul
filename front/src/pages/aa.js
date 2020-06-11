@@ -1,7 +1,9 @@
 import React from "react";
+import { useSelector } from "react-redux";
+import ShowingRestaurant from "../components/ShowingRestaurant";
 
-function aa() {
-  return <div>AA</div>;
+function aa(params) {
+  return <ShowingRestaurant />;
 }
 
 export default aa;

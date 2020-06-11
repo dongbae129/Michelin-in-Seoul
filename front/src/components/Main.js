@@ -12,12 +12,34 @@ import Upload from "../pages/Upload";
 import { Button } from "antd";
 import Restaurant from "../pages/Restaurant";
 import aa from "../pages/aa";
+import logo from "../public/images/logo.jpg";
 
 function Main() {
   return (
     <BrowserRouter>
-      <Link to="/">Home</Link>
-      <Link style={{ textDecoration: "none", marginLeft: "10px" }} to="/upload">
+      <Link
+        to="/"
+        style={{
+          lineHeight: "50px",
+          verticalAlign: "middle",
+          marginLeft: "10px",
+        }}
+      >
+        <img
+          src={logo}
+          alt="logo"
+          style={{ width: "40px", borderRadius: "50%" }}
+        />
+      </Link>
+      <Link
+        style={{
+          textDecoration: "none",
+          marginLeft: "20px",
+          fontSize: "30px",
+          verticalAlign: "middle",
+        }}
+        to="/upload"
+      >
         Upload
       </Link>
 
@@ -29,6 +51,7 @@ function Main() {
       <Route path="/upload" component={Upload} />
       <Switch>
         <Route path="/restaurant/detailinfo" component={DetailType} />
+        <Route path="/restaurant/search" component={aa} />
         <Route path="/restaurant" component={Restaurant} />
       </Switch>
 
@@ -38,7 +61,6 @@ function Main() {
       <Route path="/sushi" component={Sushi} />
       <Route path="/spanish" component={Spanish} /> */}
       <Route path="/food/:type" component={DetailType} />
-      <Route path="/aa" component={aa} />
     </BrowserRouter>
   );
 }

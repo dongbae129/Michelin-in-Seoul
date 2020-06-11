@@ -58,6 +58,7 @@ router.post("/", upload.none(), async (req, res) => {
     });
     await db.DetailInfo.create({
       description: req.body.descrip,
+      location: req.body.location,
       phonenumber: req.body.phoneNum,
       weekday: req.body.weekday,
       weekend: req.body.weekend,
@@ -100,9 +101,7 @@ router.get("/", async (req, res) => {
       include: [
         {
           model: db.Image,
-        },
-        {
-          model: db.DetailInfo,
+          limit: 1,
         },
       ],
     });
@@ -144,7 +143,7 @@ router.delete("/images", (req, res) => {
 
 router.get("/search", async (req, res) => {
   try {
-    let search = req.query.search.split(",");
+    let search = decodeURIComponent(req.query.search).split(",");
     let arr = search.map((v) => v.trim());
     // const test = await db.Restaurant.findAll({
     //   where: {
@@ -163,7 +162,11 @@ router.get("/search", async (req, res) => {
               [Op.like]: "%" + v + "%",
             },
           },
-          attributes: ["id", "name"],
+          include: [
+            {
+              model: db.Image,
+            },
+          ],
         })
       )
     );

@@ -4,10 +4,11 @@ import korean from "../public/images/korean.jpg";
 import spanish from "../public/images/spanish.jpg";
 import sushi from "../public/images/sushi.jpg";
 import innovative from "../public/images/innovative.jpg";
-import contemporary from "../public/images/contemporary.png";
+import contemporary from "../public/images/contemporary.jpg";
 import { useDispatch } from "react-redux";
 import { SEARCH_TARGETS_REQUEST } from "../reducers/restaurant";
 import { Button } from "antd";
+import "../public/home.css";
 
 const images = [korean, spanish, sushi, innovative, contemporary];
 const foodType = ["korea", "spanish", "sushi", "innovative", "contemporary"];
@@ -20,7 +21,13 @@ const HomeRending = (num) => {
         a.push(
           <Link key={i + 3} to={`/restaurant?type=${foodType[i]}`}>
             <img
-              style={{ width: "200px", height: "150px", margin: "10px" }}
+              style={{
+                width: "200px",
+                height: "150px",
+                margin: "10px",
+                borderRadius: "3%",
+                boxShadow: "2px 2px 11px 1px rgba(110,89,101,1)",
+              }}
               key={i + 3}
               alt="img"
               src={images[i]}
@@ -33,7 +40,13 @@ const HomeRending = (num) => {
         <Link key={i} to={`/restaurant?type=${foodType[i + 3]}`}>
           {" "}
           <img
-            style={{ width: "200px", height: "150px", margin: "10px" }}
+            style={{
+              width: "200px",
+              height: "150px",
+              margin: "10px",
+              borderRadius: "3%",
+              boxShadow: "2px 2px 11px 1px rgba(110,89,101,0.5)",
+            }}
             key={i}
             alt="img"
             src={images[i + 3]}
@@ -56,6 +69,7 @@ function Home() {
   const onSubmitSearch = (e) => {
     // e.preventDefault();
     if (e.keyCode === 13) {
+      if (search === "") return searchInput;
       dispatch({
         type: SEARCH_TARGETS_REQUEST,
         data: search,
@@ -78,14 +92,17 @@ function Home() {
           style={{
             // display: "block",
             width: "500px",
-            height: "30px",
-
+            height: "35px",
+            border: "2px solid #a5d8ff",
             fontSize: "1.3rem",
             textAlign: "center",
+            borderRadius: "10px",
           }}
         />
-        <Link to="/aa">
-          <Button ref={searchInput}>검색</Button>
+        <Link to={`/restaurant/search?search=${search}`}>
+          <Button ref={searchInput} style={{ borderRadius: "10px" }}>
+            검색
+          </Button>
         </Link>
       </div>
 

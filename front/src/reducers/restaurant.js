@@ -59,7 +59,7 @@ export default (state = initialState, action) => {
     case UPLOAD_RESTARAURANT_INFO_SUCCESS: {
       return {
         ...state,
-        restaurant: state.restaurant.concat(action.data),
+
         imagePaths: [],
       };
     }

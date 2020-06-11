@@ -6,16 +6,20 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.TEXT(),
         allowNull: false,
       },
+      location: {
+        type: DataTypes.STRING(100),
+        allowNull: false,
+      },
       phonenumber: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(50),
         allowNull: false,
       },
       weekday: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(200),
         allowNull: false,
       },
       weekend: {
-        type: DataTypes.STRING(20),
+        type: DataTypes.STRING(200),
         allowNull: false,
       },
     },
